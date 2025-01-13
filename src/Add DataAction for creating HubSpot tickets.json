@@ -1,0 +1,55 @@
+{
+  "name": "Hubspot insert ticket",
+  "integrationType": "custom-rest-actions",
+  "actionType": "custom",
+  "config": {
+    "request": {
+      "requestUrlTemplate": "https://api.hubapi.com/crm/v3/objects/tickets",
+      "requestType": "POST",
+      "headers": {
+        "Authorization": "Bearer 123-abc-12345678-1234-1234-1234-1234567890ab",
+        "Content-Type": "application/json"
+      },
+      "requestTemplate": "{\"properties\": {\"hs_pipeline\": \"${input.hs_pipeline}\", \"hs_pipeline_stage\": \"${input.hs_pipeline_stage}\", \"hs_ticket_priority\": \"${input.hs_ticket_priority}\", \"subject\": \"${input.subject}\" }   }"
+    },
+    "response": {
+      "translationMap": {},
+      "translationMapDefaults": {},
+      "successTemplate": "${rawResult}"
+    }
+  },
+  "contract": {
+    "input": {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "hs_pipeline": {
+            "type": "string"
+          },
+          "hs_pipeline_stage": {
+            "type": "string"
+          },
+          "hs_ticket_priority": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "output": {
+      "successSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "secure": false
+}

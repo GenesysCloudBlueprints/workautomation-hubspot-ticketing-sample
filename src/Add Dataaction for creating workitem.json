@@ -1,0 +1,74 @@
+{
+  "name": "New WorkItem",
+  "integrationType": "purecloud-data-actions",
+  "actionType": "custom",
+  "config": {
+    "request": {
+      "requestUrlTemplate": "/api/v2/taskmanagement/workitems",
+      "requestType": "POST",
+      "headers": {},
+      "requestTemplate": "{\"name\": \"${input.name}\" ,  \"priority\": ${input.priority}, \"workbinId\": \"${input.workbinId}\", \"typeId\":  \"${input.typeId}\", \"externalContactId\": \"${input.externalcontactid}\"  ,\"customFields\" : {\"casetype_text\": \"${input.casetype_text}\" , \"customername_text\": \"${input.customername_text}\" , \"customernumber_text\": \"${input.customernumber_text}\", \"memo_longtext\": \"${input.memo_longtext}\" , \"hb_ticketid_text\": \"${input.hb_ticketid}\", \"hb_url_url\": \"${input.hb_url}\"}}"
+    },
+    "response": {
+      "translationMap": {},
+      "translationMapDefaults": {},
+      "successTemplate": "${rawResult}"
+    }
+  },
+  "contract": {
+    "input": {
+      "inputSchema": {
+        "title": "source",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer"
+          },
+          "workbinId": {
+            "type": "string"
+          },
+          "typeId": {
+            "type": "string"
+          },
+          "casetype_text": {
+            "type": "string"
+          },
+          "customername_text": {
+            "type": "string"
+          },
+          "customernumber_text": {
+            "type": "string"
+          },
+          "memo_longtext": {
+            "type": "string"
+          },
+          "hb_ticketid": {
+            "type": "string"
+          },
+          "externalcontactid": {
+            "type": "string"
+          },
+          "hb_url": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "output": {
+      "successSchema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "secure": false
+}
