@@ -54,8 +54,7 @@
           "hb_url": {
             "type": "string"
           }
-        },
-        "additionalProperties": true
+        }
       }
     },
     "output": {
@@ -65,10 +64,8 @@
           "id": {
             "type": "string"
           }
-        },
-        "additionalProperties": true
+        }
       }
     }
-  },
-  "secure": false
+  }
 }

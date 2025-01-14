@@ -57,6 +57,7 @@ Clone the [workautomation-hubspot-ticketing-sample repository](https://github.co
 * `account_id`- The value of your account id created on HubSpot for creating integration.
 * `division_id`- The value of your Division ID  to be used for creating task management objects.
 * `email`- The value of your account email address ID to be used for creating group.
+* `bearer_token`- The value of your access token obtained on HubSpot private app created to be used for creating data actions.
 
 ```
 client_id       = "your-client-id"
@@ -64,7 +65,7 @@ client_secret   = "your-client-secret"
 account_id      = "12345678"
 division_id     = "12345678-1234-1234-1234-001123456789"
 email           = "test.email@genesys.com"
-```
+bearer_token    = "Bearer 123-abc-12345678-1234-1234-1234-1234567890ab"
 
 ### Run Terraform
 
@@ -239,8 +240,7 @@ Post data:
           "subject": {
             "type": "string"
           }
-        },
-        "additionalProperties": true
+        }
       }
     },
     "output": {
@@ -250,12 +250,10 @@ Post data:
           "id": {
             "type": "string"
           }
-        },
-        "additionalProperties": true
+        }
       }
     }
-  },
-  "secure": false
+  }
 }
 ```
 * Import the json to Actions
@@ -320,8 +318,7 @@ Post data:
           "hb_url": {
             "type": "string"
           }
-        },
-        "additionalProperties": true
+        }
       }
     },
     "output": {
@@ -331,12 +328,10 @@ Post data:
           "id": {
             "type": "string"
           }
-        },
-        "additionalProperties": true
+        }
       }
     }
-  },
-  "secure": false
+  }
 }
 ```
 ![Import JSON create workitem](images/import-json-create-workitem.png "Import JSON create workitem")
@@ -379,3 +374,9 @@ Worflow get the JSON data, and send a email to a User.
 2. Create a trigger
 
 3. Assign workitem to Queue in workflow
+
+## Additional resources
+
+* [Genesys Cloud API Explorer](https://developer.genesys.cloud/devapps/api-explorer "Opens the GC API Explorer") in the Genesys Cloud Developer Center
+* [HubSpot](https://www.hubspot.com/ "Opens the HubSpot page")
+* The [workautomation-hubspot-ticketing-sample](https://github.com/GenesysCloudBlueprints/workautomation-hubspot-ticketing-sample) repository in GitHub

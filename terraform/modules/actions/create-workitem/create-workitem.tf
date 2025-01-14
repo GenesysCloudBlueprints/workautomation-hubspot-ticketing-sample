@@ -43,8 +43,7 @@ resource "genesyscloud_integration_action" "create-workitem" {
       "hb_url": {
         "type": "string"
       }
-    },
-    "additionalProperties" = true
+    }
   })
   contract_output = jsonencode({
     "type" = "object",
@@ -52,8 +51,7 @@ resource "genesyscloud_integration_action" "create-workitem" {
       "id" = {
         "type": "string"
       }
-    },
-    "additionalProperties" = true
+    }
   })
   config_request {
     # Use '$${' to indicate a literal '${' in template strings. Otherwise Terraform will attempt to interpolate the string
