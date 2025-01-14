@@ -11,9 +11,16 @@ summary: |
 
 This Genesys Cloud Developer Blueprint explains how to integrate work automation with HubSpot.
 
-![Work Automation HubSpot Ticketing overview](images/overview.png "Work Automation HubSpot Ticketing overview")
+![Work automation with HubSpot flow](blueprint/images/overview.png "Work automation with HubSpot flow")
 
 ## Solution components
+
+* **Genesys Cloud** - A suite of Genesys cloud services for enterprise-grade communications, collaboration, and contact center management. Contact center agents use the Genesys Cloud user interface.
+* **Genesys Cloud API** - A set of RESTful APIs that enables you to extend and customize your Genesys Cloud environment.
+* **Data Action** - Provides the integration point to invoke a third-party REST web service or AWS lambda.
+* **Integration** - Genesys Cloud integrations connect Genesys Cloud with other tools, systems, services, and applications.
+* **Work Automation** - Work automation helps you define tasks and automate their flow according to a pre-defined process. When the workitem is created, it moves through different stages, with a unique status at each stage. Based on the category of work, you can define a worktype each having its own data attributes, and life cycle. When the workitem requires an agent’s attention, the task either routes to an agent like a regular ACD interaction or moves to a common location from which the agent can assign themselves the task. Also, you can set up the automation to capture the events and run a workflow based on the business needs.
+* **Architect flows** - A flow in Architect, a drag and drop web-based design tool, dictates how Genesys Cloud handles inbound or outbound interactions.
 
 ## Prerequisites
 
@@ -66,6 +73,7 @@ account_id      = "12345678"
 division_id     = "12345678-1234-1234-1234-001123456789"
 email           = "test.email@genesys.com"
 bearer_token    = "Bearer 123-abc-12345678-1234-1234-1234-1234567890ab"
+```
 
 ### Run Terraform
 
@@ -91,17 +99,17 @@ After the `terraform apply --auto-approve` command successfully completes, you c
 
 With your account logged in on HubSpot, go to Settings → Account Management → Integrations → Private Apps
 
-![Create private app](images/create-private-app.png "Create private app")
+   ![Create private app](images/create-private-app.png "Create private app")
 
 The scope should be set to "tickets"
 
-![Select scope](images/select-scope.png "Select scope")
+   ![Select scope](images/select-scope.png "Select scope")
 
 2. Obtain access token
 
 Once the private app is created, we can now get the access token under the Auth tab
 
-![Obtain access token](images/obtain-access-token.png "Obtain access token")
+   ![Obtain access token](images/obtain-access-token.png "Obtain access token")
 
 For integration purposes, we will utilize the HubSpot Insert Ticket API. Hubspot provide rich API see [HubSpot API Docs](https://developers.hubspot.com/docs/api/crm/tickets "Opens the HubSpot API Docs page") to Create/Retrieve/Update/Delete tickets. For Demo purpose, we will only use the Creation API.
 
@@ -111,7 +119,7 @@ Genesys Cloud creates workitems using API triggered events. Workitems belong to 
 
 1. Create workbin 
 
-![Create workbin](images/create-workbin.png "Create workbin")
+   ![Create workbin](images/create-workbin.png "Create workbin")
 
 * Use this API to find workbin id, which will be used in the subsequent step [Genesys API Explorer](https://developer.genesys.cloud/devapps/api-explorer "Genesys API Explorer").
 * Look for Task Management → Query for workbins. 
@@ -131,16 +139,16 @@ Post data:
 }
 ```
 
-![Get workbin id](images/get-workbin-id-api.png "Get workbin id")
-![Get workbin id api result](images/get-workbin-id-api-result.png "Get workbin id api result")
+   ![Get workbin id](images/get-workbin-id-api.png "Get workbin id")
+   ![Get workbin id api result](images/get-workbin-id-api-result.png "Get workbin id api result")
 
 2. Create worktype
 
-![Create worktype](images/create-worktype.png "Create worktype")
+   ![Create worktype](images/create-worktype.png "Create worktype")
 
 * Make sure to use the workbin you have created above.
 
-![Select workbin](images/create-worktype-select-workbin.png "Select workbin")
+   ![Select workbin](images/create-worktype-select-workbin.png "Select workbin")
 
 * Use this API to find worktype id, which will be used in the subsequent step [Genesys API Explorer](https://developer.genesys.cloud/devapps/api-explorer "Genesys API Explorer").
 * Look for Task Management → Query for worktypes. 
@@ -159,45 +167,58 @@ Post data:
 ]
 }
 ```
-![Get worktype id](images/get-worktype-id-api.png "Get worktype id")
+
+   ![Get worktype id](images/get-worktype-id-api.png "Get worktype id")
 
 * Execute the POST request with the following request body
-![Get worktype id api result](images/get-worktype-id-api-result.png "Get worktype id api result")
+
+   ![Get worktype id api result](images/get-worktype-id-api-result.png "Get worktype id api result")
 
 3. Create custom attributes
-![Create custom attributes](images/create-custom-attributes.png "Create custom attributes")
+
+   ![Create custom attributes](images/create-custom-attributes.png "Create custom attributes")
 
 ### Add Client Application integration
 1. To get the HubSpot URL to use for the Client Application, on HubSpot page search "tickets".
-![Search hubspot tickets page](images/search-hubspot-tickets-page.png "Search hubspot tickets page")
+
+   ![Search hubspot tickets page](images/search-hubspot-tickets-page.png "Search hubspot tickets page")
 
 2. The URL should look something like this: https://app.hubspot.com/contacts/NNNNNNNN/objects/0-5/views/all/list
-![Get hubspot tickets page](images/get-hubspot-tickets-page.png "Get hubspot tickets page")
+
+   ![Get hubspot tickets page](images/get-hubspot-tickets-page.png "Get hubspot tickets page")
 
 3. Create a group to use for the Client Application Integration. Go to Directory → Groups. 
-![Create group](images/create-group.png "Create group")
+
+   ![Create group](images/create-group.png "Create group")
 
 4. Create Client Application integration and use the URL above as the Application URL.
-![Create client application](images/create-client-application.png "Create client application")
+
+   ![Create client application](images/create-client-application.png "Create client application")
 
 5. Set Client Application integration to active.
-![Set application to active](images/set-application-to-active.png "Set application to active")
+
+   ![Set application to active](images/set-application-to-active.png "Set application to active")
 
 6. Open the Client Application under Apps → Application
-![Open client application](images/open-client-application.png "Open client application")
+
+   ![Open client application](images/open-client-application.png "Open client application")
+
 * Make sure you opened the HubSpot page on the same window with the Genesys Cloud
 
 ### Add HB Web Service integration
 * Just need to add integration, keep the default configuration.
-![Create HB Web Service integration](images/create-hb-web-service.png "Create HB Web Service integration")
+
+   ![Create HB Web Service integration](images/create-hb-web-service.png "Create HB Web Service integration")
 
 ### Add oAuth for work automation
 * Before adding Data Action for Work Automation API, need to add Oauth and Integration first. For Oauth, please add role have permission on "workitem".
-![Add oAuth](images/add-oauth.png "Add oAuth")
+
+   ![Add oAuth](images/add-oauth.png "Add oAuth")
 
 ### Add integration for work automation
 * For Data Action integration, need to use above values to configure client Id and Client Secret for Genesys Cloud Data Actions integration.
-![Create data action integration](images/create-data-action-integration.png "Create data action integration")
+
+   ![Create data action integration](images/create-data-action-integration.png "Create data action integration")
 
 ### Add DataAction for creating HubSpot tickets and workitem
 1. Add DataAction for creating HubSpot tickets
@@ -257,7 +278,8 @@ Post data:
 }
 ```
 * Import the json to Actions
-![Import JSON create ticket](images/import-json-create-ticket.png "Import JSON create ticket")
+
+   ![Import JSON create ticket](images/import-json-create-ticket.png "Import JSON create ticket")
 
 2. Add DataAction for creating workitem
 * Inside the src folder, import the 'Add Dataaction for creating workitem.json' to Actions which can be used in the Architect or Script for Demo purpose.
@@ -334,7 +356,8 @@ Post data:
   }
 }
 ```
-![Import JSON create workitem](images/import-json-create-workitem.png "Import JSON create workitem")
+
+   ![Import JSON create workitem](images/import-json-create-workitem.png "Import JSON create workitem")
 
 ### Import JSON to script
 * In this blueprint, we use script to insert Hubsport Ticket and workitem. You need to import below json to script.
